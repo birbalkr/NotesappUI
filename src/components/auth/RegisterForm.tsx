@@ -1,3 +1,4 @@
+import { NavLink } from "react-router";
 import { registerApi } from "../../api/authApi";
 import authHook from "../../hook/authHook";
 
@@ -103,12 +104,12 @@ export default function RegisterForm() {
                 {/* Login link */}
                 <p className="mt-6 text-center text-sm text-gray-500">
                     Already have an account?{" "}
-                    <a
-                        href="/auth/login"
+                    <NavLink
+                        to="/auth/login"
                         className="font-semibold text-black hover:underline"
                     >
                         Login
-                    </a>
+                    </NavLink>
                 </p>
             </form>
         </div>
