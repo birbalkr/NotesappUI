@@ -91,12 +91,12 @@ export default function LoginForm() {
                 {/* Register */}
                 <p className="mt-6 text-center text-sm text-gray-500">
                     Don't have an account?{" "}
-                    <a
-                        href="/auth/register"
+                    <NavLink
+                        to="/auth/register"
                         className="font-semibold text-black hover:underline"
                     >
                         Create account
-                    </a>
+                    </NavLink>
                 </p>
             </form>
         </div>
