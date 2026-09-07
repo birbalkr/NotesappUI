@@ -12,10 +12,6 @@ function authHook() {
     formState: { errors },
   } = useForm();
 
-  const registerData = (data: any) => {
-
-    console.log("Register Data:", data);
-  };
 
   return {
     register,

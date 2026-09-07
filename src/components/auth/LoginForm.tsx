@@ -1,6 +1,7 @@
 import { NavLink } from "react-router";
 import authHook from "../../hook/authHook";
 import { loginApi } from "../../api/authApi";
+import { setAuthToken } from "../../utils/authUtils";
 
 export default function LoginForm() {
 
@@ -10,7 +11,13 @@ export default function LoginForm() {
         const { email, password } = data;
         await loginApi({ email, password })
             .then((response) => {
-                console.log("Registration successful:", response);
+                console.log("Login successful now next api:", response);
+                // Store the token in localStorage
+                if (response.token) {
+                    setAuthToken(response.token);
+                } else if (response.data?.token) {
+                    setAuthToken(response.data.token);
+                }
             })
             .catch((error) => {
                 console.error("Registration failed:", error);

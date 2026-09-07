@@ -5,6 +5,7 @@ import ForgotPage from '../components/auth/ForgotPage'
 import MainpageLayout from '../layout/MainpageLayout'
 import AppPageLayout from '../layout/AppPageLayout'
 import NotesPage from '../notes/page/NotesPage'
+import ProtectedRoute from './ProtectedRoute'
 
 
 const AuthRoutes = createBrowserRouter([
@@ -32,7 +33,7 @@ const AuthRoutes = createBrowserRouter([
     },
     {
         path: "/notes",
-        element: <AppPageLayout />,
+        element: <ProtectedRoute element={<AppPageLayout />} />,
         children: [
             {
                 path: "",

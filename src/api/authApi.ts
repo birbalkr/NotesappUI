@@ -1,44 +1,36 @@
-import axios from "axios";
+import axiosInstance from "./axiosConfig";
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_AUTH_API_URL;
 
 export const registerApi = async (data: any) => {
-  const response = await axios.post(`${API_URL}/register`, data, {
-    withCredentials: true,
-  });
+  console.log(`${API_URL}/register`);
+  const response = await axiosInstance.post(`${API_URL}/register`, data);
 
   return response.data;
 };
 
 export const loginApi = async (data: any) => {
-  const response = await axios.post(`${API_URL}/login`, data, {
-    withCredentials: true,
-  });
+  const response = await axiosInstance.post(`${API_URL}/login`, data);
 
   return response.data;
 };
 
 export const forgotPasswordApi = async (data: any) => {
-  const response = await axios.post(`${API_URL}/forgot-password`, data);
+  const response = await axiosInstance.post(`${API_URL}/forgot-password`, data);
 
   return response.data;
 };
 
 export const profile = async () => {
-  const response = await axios.get(`${API_URL}/me`, {
-    withCredentials: true,
-  });
+  const response = await axiosInstance.get(`${API_URL}/me`);
 
   return response.data;
 };
 
 export const logoutApi = async () => {
-  const response = await axios.post(
+  const response = await axiosInstance.post(
     `${API_URL}/logout`,
-    {},
-    {
-      withCredentials: true,
-    },
+    {}
   );
 
   return response.data;

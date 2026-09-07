@@ -2,6 +2,7 @@ import { useState } from "react";
 import notesHooks from "../../hook/notesHooks";
 import { createNoteAPi } from "../../api/notesApi";
 import { logoutApi } from "../../api/authApi";
+import { removeAuthToken } from "../../utils/authUtils";
 
 function NoteNavbar({ user, setLoadData }: any) {
     const { navigate, register, reset, handleSubmit } = notesHooks();
@@ -13,9 +14,14 @@ function NoteNavbar({ user, setLoadData }: any) {
     const handleLogout = async () => {
         try {
             await logoutApi()
+            // Clear the token from localStorage
+            removeAuthToken();
             navigate("/auth/login");
         } catch (error) {
             console.error("Logout failed:", error);
+            // Still clear token and navigate even if logout API fails
+            removeAuthToken();
+            navigate("/auth/login");
         }
     };
 
@@ -69,15 +75,21 @@ function NoteNavbar({ user, setLoadData }: any) {
 
                         {/* Profile */}
                         <div className="flex items-center gap-3">
-                            <img
-                                src={user?.profileImg || "https://i.pravatar.cc/100?img=12"}
-                                // alt={user.name}
-                                className="h-9 w-9 rounded-full object-cover"
-                            />
+                            {user ? (
+                                <>
+                                    <img
+                                        src={user?.profileImg || "https://i.pravatar.cc/100?img=12"}
+                                        // alt={user.name}
+                                        className="h-9 w-9 rounded-full object-cover"
+                                    />
 
-                            <span className="text-sm font-medium text-gray-800">
-                                {user?.name || "Guest"}
-                            </span>
+                                    <span className="text-sm font-medium text-gray-800">
+                                        {user?.name || "Guest"}
+                                    </span>
+                                </>
+                            ) : (
+                                <span className="text-sm font-medium text-gray-800">Loading...</span>
+                            )}
                         </div>
 
                         {/* Logout */}
