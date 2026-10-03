@@ -1,16 +1,16 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  // Authentication uses the token returned by the API and stored in localStorage.
-  // Credentialed requests require a stricter CORS configuration on the API host.
-  withCredentials: false,
+  withCredentials: true,
 });
 
 axiosInstance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("authToken");
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      config.headers.Authorization = token.startsWith("Bearer ")
+        ? token
+        : `Bearer ${token}`;
     }
     return config;
   },
