@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate, RouterProvider } from 'react-router'
+import { createHashRouter, Navigate, RouterProvider } from 'react-router'
 import LoginForm from '../components/auth/LoginForm'
 import ForgotPage from '../components/auth/ForgotPage'
 import MainpageLayout from '../layout/MainpageLayout'
@@ -8,7 +8,7 @@ import ProtectedRoute from './ProtectedRoute'
 import RegisterForm from '../components/auth/RegisterForm'
 
 
-const AuthRoutes = createBrowserRouter([
+const AuthRoutes = createHashRouter([
     {
         path: "/",
         element: <Navigate to="/auth/login" replace />,
