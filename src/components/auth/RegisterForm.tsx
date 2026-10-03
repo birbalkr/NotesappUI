@@ -7,19 +7,16 @@ export default function RegisterForm() {
 
     const { register, reset, handleSubmit, navigate } = authHook();
 
-    const registerData = (data: any) => {
+    const registerData = async (data: any) => {
         const { username, name, email, password } = data;
 
-        registerApi({ username, name, email, password })
-            .then((response) => {
-                console.log("Registration successful:", response);
-            })
-            .catch((error) => {
-                console.error("Registration failed:", error);
-            });
-        reset();
-        
-        navigate("/notes");
+        try {
+            await registerApi({ username, name, email, password });
+            reset();
+            navigate("/auth/login");
+        } catch (error) {
+            console.error("Registration failed:", error);
+        }
     }
 
     return (
@@ -115,4 +112,3 @@ export default function RegisterForm() {
         </div>
     );
 }
-

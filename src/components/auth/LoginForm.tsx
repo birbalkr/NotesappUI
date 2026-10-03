@@ -2,29 +2,32 @@ import { NavLink } from "react-router";
 import authHook from "../../hook/authHook";
 import { loginApi } from "../../api/authApi";
 import { setAuthToken } from "../../utils/authUtils";
+import { useState } from "react";
 
 export default function LoginForm() {
 
     const { register, reset, handleSubmit, navigate } = authHook();
+    const [errorMessage, setErrorMessage] = useState("");
 
     const loginData = async (data: any) => {
         const { email, password } = data;
-        await loginApi({ email, password })
-            .then((response) => {
-                console.log("Login successful now next api:", response);
-                // Store the token in localStorage
-                if (response.token) {
-                    setAuthToken(response.token);
-                } else if (response.data?.token) {
-                    setAuthToken(response.data.token);
-                }
-            })
-            .catch((error) => {
-                console.error("Registration failed:", error);
-            });
-        reset();
+        setErrorMessage("");
 
-        navigate("/notes");
+        try {
+            const response = await loginApi({ email, password });
+            const token = response.token || response.data?.token;
+
+            if (!token) {
+                throw new Error("The login response did not include an authentication token.");
+            }
+
+            setAuthToken(token);
+            reset();
+            navigate("/notes");
+        } catch (error) {
+            console.error("Login failed:", error);
+            setErrorMessage("Unable to log in. Check your details and try again.");
+        }
     }
 
     return (
@@ -40,6 +43,12 @@ export default function LoginForm() {
                         Login to your account
                     </p>
                 </div>
+
+                {errorMessage && (
+                    <p className="mb-5 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700" role="alert">
+                        {errorMessage}
+                    </p>
+                )}
 
                 {/* Email */}
                 <div className="mb-5">
